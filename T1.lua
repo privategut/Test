@@ -1,3 +1,4 @@
+warn("Process - System S")
 if game:GetService("Workspace"):FindFirstChild("AAAAAAAAAAAAAAAASSSSSSSSSSSSSSSSSSSSSSDFFFFFFFFFFFFFFFGHJJJJJJJJJJJJJJJJJJJJJJJJJJJJJKKKKKKKKKKKKKKK") then
 	pcall(function() game:GetService("Workspace").AAAAAAAAAAAAAAAASSSSSSSSSSSSSSSSSSSSSSDFFFFFFFFFFFFFFFGHJJJJJJJJJJJJJJJJJJJJJJJJJJJJJKKKKKKKKKKKKKKK:Destroy(); end);
 end;
@@ -389,7 +390,7 @@ game:GetService("CoreGui"):FindFirstChild("KeySystem")["Frame"]["TextButton"].Mo
         game:GetService("CoreGui"):FindFirstChild("KeySystem")["Frame"]["TextBox"].Text = "Invalid Key/Key Expire";
     end;
 end);
-
+warn("Process - System F");
 
 repeat task.wait() until AllowToLoad2
 
