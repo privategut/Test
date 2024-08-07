@@ -436,6 +436,7 @@ RunServiceWindow = game:GetService("RunService").Heartbeat:Connect(function()
 		Window.Root.Visible = false;
 	end;
 end);
+warn("Process - Process S");
 if getgenv().LoadingProcess == nil then
     getgenv().LoadingProcess = false;
 end;
@@ -447,7 +448,9 @@ if getgenv().LoadingProcess == false then
     task.wait(5);
     getgenv().LoadingProcess = false;
 end;
+warn("Process - Process F");
 task.wait();
+warn("Process - Debris S");
 local UI = loadstring(game:HttpGet("https://raw.githubusercontent.com/Yumiara/NewCMain/main/UiLibrary.ttjyhub"))();
 local UIF = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/InterfaceManager.lua"))();
 repeat task.wait(1);
@@ -1686,7 +1689,9 @@ h.RenderStepped:Connect(function()
 end)
 AFK = false
 CurrentFluent = nil
+warn("Process - Debris F")
 do
+    warn("Process - UI S")
     Tabs.Main:AddSection("Stat");
     StatsValue = Tabs.Main:AddInput("StatsValue", {
         Title = "Point", Default = tostring(Setting.StatsValue),
@@ -2155,8 +2160,9 @@ do
             a["KLOOOP"].CanQuery = Options.UIXLock.Value
         end);
     end);
+    warn("Process - UI F");
 end;
-
+warn("Process - After S")
 UIF:SetLibrary(Fluent);
 UIF:BuildInterfaceSection(Tabs.Settings);
 UI:Notify({Title = "Script"; Content = "Thanks for using TTJY Hub"; Duration = 8});
@@ -2810,7 +2816,8 @@ task.spawn(function()
         end;
     end;
 end);
-
+warn("Process - After F")
+warn("Process - UIX S")
 local dfff = game:GetService("RunService");
 local dffff = game:GetService("Players");
 local dfffffff = dffff.LocalPlayer;
@@ -2865,4 +2872,4 @@ while task.wait() do
             ejfjewfoiewfnewofn.CFrame = CFrame.new(ewfewgergwfwefew, awdwadawdadawd.Position);
         end);
     end;
-end;
+end; warn("Process - UIX F")
