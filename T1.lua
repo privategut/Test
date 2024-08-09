@@ -1,3 +1,4 @@
+--a
 warn("Process - System S")
 if game:GetService("Workspace"):FindFirstChild("AAAAAAAAAAAAAAAASSSSSSSSSSSSSSSSSSSSSSDFFFFFFFFFFFFFFFGHJJJJJJJJJJJJJJJJJJJJJJJJJJJJJKKKKKKKKKKKKKKK") then
 	pcall(function() game:GetService("Workspace").AAAAAAAAAAAAAAAASSSSSSSSSSSSSSSSSSSSSSDFFFFFFFFFFFFFFFGHJJJJJJJJJJJJJJJJJJJJJJJJJJJJJKKKKKKKKKKKKKKK:Destroy(); end);
@@ -553,7 +554,7 @@ local DEJ, FEZ = pcall(function()
 	end;
 	if isfolder("Setting") and not isfile("Setting/BloxFruit.json") then
 		Setting = {
-            ["FastAttack"] = false; ["BringMob"] = false;
+            ["FastAttack"] = false; ["BringMob"] = false; ["BringMobType"] = "Target";
 			["AutoFarmLevel"] = false;
             ["AutoFarmPosX"] = 0; ["AutoFarmPosY"] = 35; ["AutoFarmPosZ"] = 0;
             ["TeleportSpeedAutoFarm"] = 2;
@@ -580,7 +581,7 @@ end;
 local YEM, OML = pcall(function()
 	if rawget(Setting, "aaa") == nil then
 		Setting = {
-            ["FastAttack"] = false; ["BringMob"] = false;
+            ["FastAttack"] = false; ["BringMob"] = false; ["BringMobType"] = "Target";
 			["AutoFarmLevel"] = false;
             ["AutoFarmPosX"] = 0; ["AutoFarmPosY"] = 35; ["AutoFarmPosZ"] = 0;
             ["TeleportSpeedAutoFarm"] = 2; ["Stackable"] = false;
@@ -2515,7 +2516,7 @@ task.spawn(function()
                         wait(0.5);
                     end;
                 end;
-                task.wait(); print(a.Enemies:FindFirstChild(CheckLevel()[4]))
+                task.wait();
                 if a.Enemies:FindFirstChild(CheckLevel()[4]) and not Setting.Stackable then
                     for i,v in pairs(a.Enemies:GetChildren()) do
                         if v:FindFirstChild("HumanoidRootPart") and v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0 and selff.PlayerGui.Main.Quest.Visible and not Setting.Stackable then
@@ -2701,43 +2702,45 @@ end);task.spawn(function()
 end);task.spawn(function() FirstMobTarget = nil;
     while task.wait() do
         if getgenv().LoadingProcess then break; end;
-        if Setting.BringMobType == "Target" then
-            if FirstMobTarget == nil or (FirstMobTarget ~= nil and (not FirstMobTarget.Parent or not FirstMobTarget:FindFirstChild("HumanoidRootPart"))) then
-                pcall(function()
-                    for _, v in pairs(a.Enemies:GetChildren()) do
-                        if v:IsA("Model") and v.Name == tostring(TargetMobName) and v:FindFirstChild("HumanoidRootPart") and dist(v.HumanoidRootPart.Position) <= Setting.BringMobDistance then
-                            FirstMobTarget = v;
+        if Setting.BringMob then
+            if Setting.BringMobType == "Target" then
+                if FirstMobTarget == nil or (FirstMobTarget ~= nil and (not FirstMobTarget.Parent or not FirstMobTarget:FindFirstChild("HumanoidRootPart"))) then
+                    pcall(function()
+                        for _, v in pairs(a.Enemies:GetChildren()) do
+                            if v:IsA("Model") and v.Name == tostring(TargetMobName) and v:FindFirstChild("HumanoidRootPart") and dist(v.HumanoidRootPart.Position) <= Setting.BringMobDistance then
+                                FirstMobTarget = v;
+                            end;
                         end;
-                    end;
-                end);
-            else
-                pcall(function()
-                    for _, v in pairs(a.Enemies:GetChildren()) do
-                        if v:IsA("Model") and v.Name == tostring(TargetMobName) and v:FindFirstChild("HumanoidRootPart") and dist(v.HumanoidRootPart.Position) <= Setting.BringMobDistance and FirstMobTarget:FindFirstChild("HumanoidRootPart") then
-                            v.HumanoidRootPart.CFrame = FirstMobTarget.HumanoidRootPart.Position
-                            SetHum(v)
+                    end);
+                else
+                    pcall(function()
+                        for _, v in pairs(a.Enemies:GetChildren()) do
+                            if v:IsA("Model") and v.Name == tostring(TargetMobName) and v:FindFirstChild("HumanoidRootPart") and dist(v.HumanoidRootPart.Position) <= Setting.BringMobDistance and FirstMobTarget:FindFirstChild("HumanoidRootPart") then
+                                v.HumanoidRootPart.CFrame = FirstMobTarget.HumanoidRootPart.Position;
+                                SetHum(v);
+                            end;
                         end;
-                    end;
-                end);
-            end;
-        elseif Setting.BringMobType == "Any" then
-            if FirstMobTarget == nil or (FirstMobTarget ~= nil and (not FirstMobTarget.Parent or not FirstMobTarget:FindFirstChild("HumanoidRootPart"))) then
-                pcall(function()
-                    for _, v in pairs(a.Enemies:GetChildren()) do
-                        if v:IsA("Model") and v:FindFirstChild("HumanoidRootPart") and dist(v.HumanoidRootPart.Position) <= Setting.BringMobDistance then
-                            FirstMobTarget = v;
+                    end);
+                end;
+            elseif Setting.BringMobType == "Any" then
+                if FirstMobTarget == nil or (FirstMobTarget ~= nil and (not FirstMobTarget.Parent or not FirstMobTarget:FindFirstChild("HumanoidRootPart"))) then
+                    pcall(function()
+                        for _, v in pairs(a.Enemies:GetChildren()) do
+                            if v:IsA("Model") and v:FindFirstChild("HumanoidRootPart") and dist(v.HumanoidRootPart.Position) <= Setting.BringMobDistance then
+                                FirstMobTarget = v;
+                            end;
                         end;
-                    end;
-                end);
-            else
-                pcall(function()
-                    for _, v in pairs(a.Enemies:GetChildren()) do
-                        if v:IsA("Model") and v:FindFirstChild("HumanoidRootPart") and dist(v.HumanoidRootPart.Position) <= Setting.BringMobDistance and FirstMobTarget:FindFirstChild("HumanoidRootPart") then
-                            v.HumanoidRootPart.CFrame = FirstMobTarget.HumanoidRootPart.Position
-                            SetHum(v)
+                    end);
+                else
+                    pcall(function()
+                        for _, v in pairs(a.Enemies:GetChildren()) do
+                            if v:IsA("Model") and v:FindFirstChild("HumanoidRootPart") and dist(v.HumanoidRootPart.Position) <= Setting.BringMobDistance and FirstMobTarget:FindFirstChild("HumanoidRootPart") then
+                                v.HumanoidRootPart.CFrame = FirstMobTarget.HumanoidRootPart.Position;
+                                SetHum(v);
+                            end;
                         end;
-                    end;
-                end);
+                    end);
+                end;
             end;
         end;
     end;
