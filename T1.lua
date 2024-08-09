@@ -1,4 +1,3 @@
---gay
 warn("Process - System S")
 if game:GetService("Workspace"):FindFirstChild("AAAAAAAAAAAAAAAASSSSSSSSSSSSSSSSSSSSSSDFFFFFFFFFFFFFFFGHJJJJJJJJJJJJJJJJJJJJJJJJJJJJJKKKKKKKKKKKKKKK") then
 	pcall(function() game:GetService("Workspace").AAAAAAAAAAAAAAAASSSSSSSSSSSSSSSSSSSSSSDFFFFFFFFFFFFFFFGHJJJJJJJJJJJJJJJJJJJJJJJJJJJJJKKKKKKKKKKKKKKK:Destroy(); end);
@@ -1349,6 +1348,9 @@ function CheckLevel()
         end;
     end;
 end;
+DamageAura = true;
+Fast = false;
+NeedAttacking = false;
 if JKLL then
 	getHits = function(Size)
 		local Hits = {};
@@ -2651,6 +2653,7 @@ end);task.spawn(function()
             pcall(function() StoreFruit(); end);
         end; task.wait();
         NeedKillAura = Setting.KillAura;
+        Fast = Setting.FastAttack;
         NeedAttacking = Setting.AutoFarmLevel or Setting.AutoFarmSelectMob or Setting.AutoFarmSelectBoss or Setting.AutoSaber;
         if NeedAttacking then pcall(function() EquipWeapon(Setting.SelectWeapon); end); end;
     end;
