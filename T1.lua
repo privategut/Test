@@ -1,4 +1,3 @@
---a
 warn("Process - System S")
 if game:GetService("Workspace"):FindFirstChild("AAAAAAAAAAAAAAAASSSSSSSSSSSSSSSSSSSSSSDFFFFFFFFFFFFFFFGHJJJJJJJJJJJJJJJJJJJJJJJJJJJJJKKKKKKKKKKKKKKK") then
 	pcall(function() game:GetService("Workspace").AAAAAAAAAAAAAAAASSSSSSSSSSSSSSSSSSSSSSDFFFFFFFFFFFFFFFGHJJJJJJJJJJJJJJJJJJJJJJJJJJJJJKKKKKKKKKKKKKKK:Destroy(); end);
@@ -2397,7 +2396,55 @@ do
             Setting.UIXLock = Options.UIXLock.Value
             a["KLOOOP"].CanQuery = Options.UIXLock.Value
         end);
-    end); warn("Process - UI F");
+    end); warn("Process - UI F"); prefix = nil;
+    Prefix = Tabs.Main:AddInput("Prefix", {
+        Title = "Prefix", Default = "####",
+        Placeholder = "Placeholder", Numeric = false, Finished = false,
+        Callback = function(Value)
+            prefix = Value;
+        end;
+    });
+    Prefix:OnChanged(function()
+        prefix = Prefix.Value;
+    end);
+    Tabs.Main:AddSection("Command XOPsX [Type: No Limited]");
+    Tabs.Main:AddParagraph({Title = "atft & atff",
+        Content = "atft to enable auto farm and atff to disable auto farm"
+    });
+    Tabs.Main:AddParagraph({Title = "atfspeed <Number>",
+        Content = "Will set Auto farm teleport speed. Example usage: atfspeed 50 or atfspeed50 or 50atfspeed or 5atfspeed0"
+    });
+    Tabs.Main:AddParagraph({Title = "bmt & bmf",
+        Content = "bmt to enable bring mob and bmf to disable bring mob"
+    });
+    Tabs.Main:AddParagraph({Title = "afkt & afkf",
+        Content = "afkt to enable anti afk and afkf to disable anti afk"
+    });
+    function getnumber(message)
+        local combinedNumbers = "";
+        for digit in string.gmatch(message, "%d") do
+            combinedNumbers = combinedNumbers .. digit;
+        end;
+        if combinedNumbers ~= "" then
+            return tonumber(combinedNumbers);
+        else
+            return nil;
+        end;
+    end;
+    task.spawn(function()
+        pcall(function()
+            selff.Chatted:Connect(function(message)
+                if string.find(message, tostring(prefix)) then
+                    if string.find(message, "atfspeed") then
+                        pcall(function()
+                            Setting.TeleportSpeedAutoFarm = getnumber(message);
+                            TeleportSpeedAutoFarm:SetValue(getnumber(message));
+                        end);
+                    end;
+                end;
+            end);
+        end);
+    end);
 end; warn("Process - After S")
 pcall(function()
     UIF:SetLibrary(Fluent);
