@@ -657,7 +657,7 @@ end;function Tp(a, b, c, speedoftpNTP)
     end;
     for i = 1, ssKLLOP do
         if Setting.BREAKALLTHISSHITHAHAHAHAHA then break; end;
-        if dist(saveAlKLOOP.Position) then Tp2(svetarKLLOP) end;
+        if dist(saveAlKLOOP.Position) <= 50 then Tp2(svetarKLLOP); break; end;
         cpKLLOP = cpKLLOP + dtnKLOOP * sdKLOOp;
         selff.Character.HumanoidRootPart.CFrame = CFrame.new(cpKLLOP);
         task.wait();
@@ -1348,9 +1348,6 @@ function CheckLevel()
         end;
     end;
 end;
-DamageAura = true
-Fast = Setting.FastAttack
-NeedAttacking = false
 if JKLL then
 	getHits = function(Size)
 		local Hits = {};
@@ -1395,7 +1392,7 @@ if JKLL then
 				Human = v:FindFirstChildOfClass("Humanoid");
 				if Human and Human.Health > 0 and Human.RootPart and v ~= Char then
 					local IsPlayer = b:GetPlayerFromCharacter(v);
-					local IsAlly = IsPlayer and CollectionService:HasTag(IsPlayer,"Ally"..selff.Name);
+					local IsAlly = IsPlayer and CollectionService:HasTag(IsPlayer,"Ally"..Client.Name);
 					if not IsAlly then
 						CurrentAllMob[#CurrentAllMob + 1] = v;
 						if not nearbymon and (selff.Character:FindFirstChild("HumanoidRootPart") and (v.HumanoidRootPart.Position - selff.Character.HumanoidRootPart.Position).Magnitude <= 65) then
@@ -1467,9 +1464,6 @@ if JKLL then
 			a:Stop();
 		end;
 	end;
-
-    -- RL??? PC???? DMG???? --
-
 	task.spawn(function()
 		local Data = Combat;
 		local Blank = function() end;
@@ -1546,9 +1540,7 @@ if JKLL then
 		end;
 	end);
 else
-    if not getgenv().Dev then
-        selff:Kick("Unsupported Executor .. We are trying our best to make this support every executor. Thank you for using TTJY Hub.");
-    end;
+    selff:Kick("Unsupported Executor .. We are trying our best to make this support every executor. Thank you for using TTJY Hub.");
 end;function EquipWeapon(Name)
     if selff.Backpack:FindFirstChild(Name) then
         ToolJKNLL = selff.Backpack:FindFirstChild(Name);
@@ -1600,25 +1592,246 @@ end;function NearestPlr()
 end;function BNotify(message)
     Notification = require(e.Notification);
     Notification.new(message):Display();
+end;function getInventory(value, types)
+    if selff.Backpack:FindFirstChild(value) then
+        if types == "Check" then return true; end;
+    elseif selff.Character:FindFirstChild(value) then
+        if types == "Check" then return true; end;
+    else
+        for i, v in pairs(CommF:InvokeServer("getInventory")) do
+            if type(v) == "table" then
+                if types == "Check" and value == v.Name then
+                    return true
+                elseif types == "Count" then
+                    return v.Count
+                elseif types == "MaxCount" then
+                    return v.MaxCount
+                end;
+            end;
+        end;
+    end;
+    return false;
+end;function getM(va, vb, bool) 
 end;function StoreFruit()
-    for i, v in pairs(FruitToStore) do
-        CommF:InvokeServer("StoreFruit", v);
+    if selff.Character:FindFirstChild("EatRemote", true) or selff.Backpack:FindFirstChild("EatRemote", true) then
+        for _, tool in pairs(selff.Character:GetChildren()) do
+            if tool:FindFirstChild("EatRemote") and table.find(FruitToStore, tool.Name) then
+                local FruitToStore = tool:GetAttribute("OriginalName");
+                if FruitToStore then
+                    CommF:InvokeServer("StoreFruit", FruitToStore, tool);
+                end;
+            end;
+        end;
+        task.wait();
+        for _, tool in pairs(selff.Backpack:GetChildren()) do
+            if tool and tool:FindFirstChild("EatRemote") and table.find(FruitToStore, tool.Name) then
+                pcall(function()
+                    local FruitToStore = tool:GetAttribute("OriginalName");
+                    if FruitToStore then
+                        EquipWeapon(tostring(tool.Name));wait();
+                        CommF:InvokeServer("StoreFruit", FruitToStore, tool);
+                    end;
+                end);
+            end;
+        end;
     end;
 end;function StoreAllFruit()
-    for i, v in pairs(FruitList) do
-        CommF:InvokeServer("StoreFruit", v);
+    if selff.Character:FindFirstChild("EatRemote", true) or selff.Backpack:FindFirstChild("EatRemote", true) then
+        for _, tool in pairs(selff.Character:GetChildren()) do
+            if tool:FindFirstChild("EatRemote") then
+                local FruitToStore = tool:GetAttribute("OriginalName")
+                if FruitToStore then
+                    CommF:InvokeServer("StoreFruit", FruitToStore, tool)
+                end;
+            end;
+        end;
+        task.wait();
+        for _, tool in pairs(selff.Backpack:GetChildren()) do
+            if tool and tool:FindFirstChild("EatRemote") then
+                pcall(function()
+                    local FruitToStore = tool:GetAttribute("OriginalName");
+                    if FruitToStore then
+                        EquipWeapon(tostring(tool.Name)); wait();
+                        CommF:InvokeServer("StoreFruit", FruitToStore, tool);
+                    end;
+                end);
+            end;
+        end;
     end;
 end;function SnipeFruit()
     CommF:InvokeServer("GetFruits");
     CommF:InvokeServer("PurchaseRawFruit", Setting.FruitToSnipe);
 end;function RandomFruit()
     CommF:InvokeServer("Cousin", "Buy");
+end;function DropFruit()
+
 end;function Buso()
     if not selff.Character:FindFirstChild("HasBuso") then
         CommF:InvokeServer("Buso");
     end;
 end;function BuyI(a, b)
     CommF:InvokeServer(a, b);
+end;function SetHum(obj)
+    obj.HumanoidRootPart.CanCollide = false; obj.Humanoid.WalkSpeed = 0; obj.Head.CanCollide = false;
+end;function Hop()
+    if not StopAllHop then
+        serializedSetting = i:JSONEncode(Setting); task.wait();
+        writefile("Setting/BloxFruit.json", serializedSetting); task.wait();
+        repeat
+            if StopAllHop then break; else
+                game:GetService("TeleportService"):Teleport(game.PlaceId);
+            end
+            task.wait(3);
+        until StopAllHop
+    end;
+end;function TPS(int)
+    if int == 1 then CommF:InvokeServer("TravelMain");
+    elseif int == 2 then CommF:InvokeServer("TravelDressrosa");
+    elseif int == 3 then CommF:InvokeServer("TravelZou"); end; local OBVC = nil;
+end;function OBVHigh(bool, HighlightColor, OutlineColor)
+    if OBVC == nil and bool then
+        pcall(function()
+            OBVC = a.Characters.DescendantAdded:Connect(function(v)
+                task.spawn(function()
+                    if v:IsA("Highlight") and v.Parent.Name ~= selff.Character.Name and v.Parent:IsA("Model") then
+                        task.wait(0.3);
+                        if v.FillColor == Color3.new(1, 1, 1) then
+                            pcall(function() v.FillColor = HighlightColor; end);
+                        end;
+                        if v.OutlineColor == Color3.new(1, 1, 1) then
+                            pcall(function() v.OutlineColor = OutlineColor; end);
+                        end;
+                    end;
+                end);
+            end);
+        end);
+    elseif not bool and OBVC ~= nil then
+        pcall(function()
+            OBVC:Disconnect();
+            OBVC = nil;
+        end);
+    end;
+end;function CheckBoss()
+    return e:FindFirstChild(Setting.SelectBoss) or a.Enemies:FindFirstChild(Setting.SelectBoss);
+end;function KillBoss()
+    if a.Enemies:FindFirstChild(Setting.SelectBoss) then
+        for i,v in pairs(a.Enemies:GetChildren()) do
+            if v.Name == Setting.SelectBoss and Setting.AutoFarmSelectBoss then
+                if v:FindFirstChild("Humanoid") and v:FindFirstChild("HumanoidRootPart") and v.Humanoid.Health > 0 then
+                    repeat task.wait();
+                        Tp(v.HumanoidRootPart.CFrame * CFrame.new(tonumber(Setting.AutoFarmPosX), tonumber(Setting.AutoFarmPosY), tonumber(Setting.AutoFarmPosZ)), tonumber(Setting.TeleportSpeedAutoFarm));
+                        SetHum(v);
+                        sethiddenproperty(selff,"SimulationRadius",math.huge);
+                    until not v or not Setting.AutoFarmSelectBoss or v.Humanoid.Health <= 0
+                end;
+            end;
+        end;
+    else
+        if e:FindFirstChild(Setting.SelectBoss) then
+            Tp(e:FindFirstChild(Setting.SelectBoss).HumanoidRootPart.CFrame * CFrame.new(0,35,0));
+        end;
+        repeat task.wait(); until a.Enemies:FindFirstChild(Setting.SelectBoss) or (not a.Enemies:FindFirstChild(Setting.SelectBoss) and not e:FindFirstChild(Setting.SelectBoss)) or not Setting.AutoFarmSelectBoss
+        for i,v in pairs(a.Enemies:GetChildren()) do
+            if v.Name == Setting.SelectBoss and Setting.AutoFarmSelectBoss then
+                if v:FindFirstChild("Humanoid") and v:FindFirstChild("HumanoidRootPart") and v.Humanoid.Health > 0 then
+                    repeat task.wait();
+                        Tp(v.HumanoidRootPart.CFrame * CFrame.new(tonumber(Setting.AutoFarmPosX), tonumber(Setting.AutoFarmPosY), tonumber(Setting.AutoFarmPosZ)), tonumber(Setting.TeleportSpeedAutoFarm));
+                        SetHum(v);
+                        sethiddenproperty(selff,"SimulationRadius",math.huge);
+                    until not v or not Setting.AutoFarmSelectBoss or v.Humanoid.Health <= 0
+                end;
+            end;
+        end;
+    end;
+end;function KillTargetBoss(value, tableobj)
+    if a.Enemies:FindFirstChild(value) then
+        for i,v in pairs(a.Enemies:GetChildren()) do
+            if v.Name == value and Setting[tableobj] then
+                if v:FindFirstChild("Humanoid") and v:FindFirstChild("HumanoidRootPart") and v.Humanoid.Health > 0 then
+                    repeat task.wait();
+                        Tp(v.HumanoidRootPart.CFrame * CFrame.new(tonumber(Setting.AutoFarmPosX), tonumber(Setting.AutoFarmPosY), tonumber(Setting.AutoFarmPosZ)), tonumber(Setting.TeleportSpeedAutoFarm));
+                        SetHum(v);
+                        sethiddenproperty(selff,"SimulationRadius",math.huge);
+                    until not v or not Setting[tableobj] or v.Humanoid.Health <= 0
+                end;
+            end;
+        end;
+    else
+        if e:FindFirstChild(value) then
+            Tp(e:FindFirstChild(value).HumanoidRootPart.CFrame * CFrame.new(0,35,0));
+        end;
+        repeat task.wait(); until a.Enemies:FindFirstChild(value)
+        for i,v in pairs(a.Enemies:GetChildren()) do
+            if v.Name == value and Setting[tableobj] then
+                if v:FindFirstChild("Humanoid") and v:FindFirstChild("HumanoidRootPart") and v.Humanoid.Health > 0 then
+                    repeat task.wait();
+                        Tp(v.HumanoidRootPart.CFrame * CFrame.new(tonumber(Setting.AutoFarmPosX), tonumber(Setting.AutoFarmPosY), tonumber(Setting.AutoFarmPosZ)), tonumber(Setting.TeleportSpeedAutoFarm));
+                        SetHum(v);
+                        sethiddenproperty(selff,"SimulationRadius",math.huge);
+                    until not v or not Setting[tableobj] or v.Humanoid.Health <= 0
+                end;
+            end;
+        end;
+    end;
+end;function KillAllBoss()
+    if WorldCheck["First Sea"] then abvgwe234 = {"Saber Expert", "The Saw", "Greybeard", "The Gorilla King", "Bobby", "Yeti", "Mob Leader", "Vice Admiral", "Warden", "Chief Warden", "Swan", "Magma Admiral", "Fishman Lord", "Wysper", "Thunder God", "Cyborg"};
+    elseif WorldCheck["Second Sea"] then abvgwe234 = {"Diamond","Jeremy","Fajita","Don Swan","Smoke Admiral","Cursed Captain","Darkbeard","Order","Awakened Ice Admiral","Tide Keeper"};
+    elseif WorldCheck["Third Sea"] then abvgwe234 = {"Stone","Island Empress","Kilo Admiral","Captain Elephant","Beautiful Pirate","rip_indra True Form","Longma","Soul Reaper","Cake Queen"}; end;
+    pcall(function()
+        for _, v in pairs(a.Enemies:GetChildren()) do
+            if table.find(abvgwe234, v.Name) then
+                if v:FindFirstChild("Humanoid") and v:FindFirstChild("HumanoidRootPart") and v.Humanoid.Health > 0 and Setting.AutoFarmAllBoss and Setting.Stackable then
+                    repeat task.wait();
+                        Tp(v.HumanoidRootPart.CFrame * CFrame.new(tonumber(Setting.AutoFarmPosX), tonumber(Setting.AutoFarmPosY), tonumber(Setting.AutoFarmPosZ)), tonumber(Setting.TeleportSpeedAutoFarm));
+                        SetHum(v);
+                        sethiddenproperty(selff,"SimulationRadius",math.huge);
+                    until not v or v.Humanoid.Health <= 0 or not Setting.AutoFarmAllBoss or not Setting.Stackable
+                end;
+            end;
+        end;
+    end);
+    task.wait();
+    pcall(function()
+        for _, v in pairs(e:GetChildren()) do
+            if table.find(abvgwe234, v.Name) then
+                if v:FindFirstChild("Humanoid") and v:FindFirstChild("HumanoidRootPart") and v.Humanoid.Health > 0 then
+                    repeat task.wait();
+                        Tp(v.HumanoidRootPart.CFrame * CFrame.new(tonumber(Setting.AutoFarmPosX), tonumber(Setting.AutoFarmPosY), tonumber(Setting.AutoFarmPosZ)), tonumber(Setting.TeleportSpeedAutoFarm));
+                        SetHum(v);
+                        sethiddenproperty(selff,"SimulationRadius",math.huge);
+                    until not v or v.Humanoid.Health <= 0 or not Setting.AutoFarmAllBoss or not Setting.Stackable
+                end;
+            end;
+        end;
+    end);
+    task.wait();
+end;function AllBossCheck()
+    VecGyraaa12 = {}
+    if WorldCheck["First Sea"] then abvgwe234 = {"Saber Expert", "The Saw", "Greybeard", "The Gorilla King", "Bobby", "Yeti", "Mob Leader", "Vice Admiral", "Warden", "Chief Warden", "Swan", "Magma Admiral", "Fishman Lord", "Wysper", "Thunder God", "Cyborg"};
+    elseif WorldCheck["Second Sea"] then abvgwe234 = {"Diamond","Jeremy","Fajita","Don Swan","Smoke Admiral","Cursed Captain","Darkbeard","Order","Awakened Ice Admiral","Tide Keeper"};
+    elseif WorldCheck["Third Sea"] then abvgwe234 = {"Stone","Island Empress","Kilo Admiral","Captain Elephant","Beautiful Pirate","rip_indra True Form","Longma","Soul Reaper","Cake Queen"}; end;
+    pcall(function()
+        for _, v in pairs(a.Enemies:GetChildren()) do
+            if table.find(abvgwe234, v.Name) then
+                table.insert(VecGyraaa12, v.Name);
+            end;
+        end;
+    end);
+    task.wait();
+    pcall(function()
+        for _, v in pairs(e:GetChildren()) do
+            if table.find(abvgwe234, v.Name) then
+                table.insert(VecGyraaa12, v.Name);
+            end;
+        end;
+    end); task.wait();
+    if #VecGyraaa12 > 0 then
+        return true;
+    else
+        return false;
+    end;
+end;function AutoRengoku()
+
 end;
 CHECKGUNHHHJ, JKOOOLLLLWKGUN = pcall(function()
     km = nil; for i, v in next, getgc() do if typeof(v) == 'function' then local u = debug.getinfo(v); if string.find(u.source, 'GunClient', 1, true) and u.currentline == 58 then km = v; break; end; end; end; istypeing = false; vector2 = Vector2.new(500,500); table.foreach(debug.getinfo(km),warn);
