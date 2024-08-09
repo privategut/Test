@@ -1,3 +1,4 @@
+--gay
 warn("Process - System S")
 if game:GetService("Workspace"):FindFirstChild("AAAAAAAAAAAAAAAASSSSSSSSSSSSSSSSSSSSSSDFFFFFFFFFFFFFFFGHJJJJJJJJJJJJJJJJJJJJJJJJJJJJJKKKKKKKKKKKKKKK") then
 	pcall(function() game:GetService("Workspace").AAAAAAAAAAAAAAAASSSSSSSSSSSSSSSSSSSSSSDFFFFFFFFFFFFFFFGHJJJJJJJJJJJJJJJJJJJJJJJJJJJJJKKKKKKKKKKKKKKK:Destroy(); end);
@@ -1392,7 +1393,7 @@ if JKLL then
 				Human = v:FindFirstChildOfClass("Humanoid");
 				if Human and Human.Health > 0 and Human.RootPart and v ~= Char then
 					local IsPlayer = b:GetPlayerFromCharacter(v);
-					local IsAlly = IsPlayer and CollectionService:HasTag(IsPlayer,"Ally"..Client.Name);
+					local IsAlly = IsPlayer and CollectionService:HasTag(IsPlayer,"Ally"..selff.Name);
 					if not IsAlly then
 						CurrentAllMob[#CurrentAllMob + 1] = v;
 						if not nearbymon and (selff.Character:FindFirstChild("HumanoidRootPart") and (v.HumanoidRootPart.Position - selff.Character.HumanoidRootPart.Position).Magnitude <= 65) then
